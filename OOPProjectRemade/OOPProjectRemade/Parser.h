@@ -2,6 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include<list>
+#include<vector>
 
 using namespace std;
 
@@ -12,8 +13,8 @@ public:
 	~Parser();
 
 	static void printWords(string statement) {
-		list<string> words = Parse(statement);
-		list<string>::iterator it;
+		vector<string> words = Parse(statement);
+		vector<string>::iterator it;
 		if (!words.empty())
 		{
 			for (it = words.begin(); it != words.end(); ++it)
@@ -23,8 +24,8 @@ public:
 		}
 	}
 
-	static list<string> Parse(string statement) {
-		list<string> words;
+	static vector<string> Parse(string statement) {
+		vector<string> words;
 		int statementIndex = 0;
 		for (int i = 0; i < statement.size() - 1; i++)
 		{
@@ -51,7 +52,7 @@ public:
 
 private:
 
-	static void ParseWord(string statement, int& startOfString, list<string>& wordsList) {
+	static void ParseWord(string statement, int& startOfString, vector<string>& wordsList) {
 		int substringIndex = 0;
 		int clone = startOfString;
 		while (!isSpaceCommaParanthesisOrEndOfLine(statement[clone]))
@@ -66,7 +67,7 @@ private:
 		startOfString += substringIndex;
 	}
 
-	static void ParseSymbol(string statement, int& startOfString, list<string>& wordsList) {
+	static void ParseSymbol(string statement, int& startOfString, vector<string>& wordsList) {
 		if (isSpaceCommaParanthesisOrEndOfLine(statement[startOfString]) && statement[startOfString] != ' ')
 		{
 			string symbol="x";

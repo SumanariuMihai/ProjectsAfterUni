@@ -1,4 +1,5 @@
 #pragma once
+#include<vector>
 #include "Parser.h"
 
 class MySQLChecker
@@ -18,40 +19,54 @@ private:
 
 	bool isAlterTable(string statement)
 	{
-		list<string> words = Parser::Parse(statement);
-		list<string>::iterator it;
+		vector<string> words = Parser::Parse(statement);
+		vector<string>::iterator it = words.begin();;
+		vector<string>::iterator previousIt = words.begin();
 		bool endChecker;
 		bool onlyOneCheckerAlter = true;
 		bool onlyOneCheckerTable = true;
 		bool alterChecker = false;
-		bool tableChecker = true;
+		bool tableChecker = false;
 		int wordsChecker = 0;
-		
-		for (it = words.begin(); it != words.end(); ++it)
-		{
-			if (tableChecker == true) wordsChecker++;
-			ifSameAndOnlyChangeCheckers(it, "ALTER", alterChecker, onlyOneCheckerAlter);
-			ifSameAndOnlyChangeCheckers(it, "TABLE", tableChecker, onlyOneCheckerTable);
-		}
 
-		if (onlyOneCheckerAlter == true &&
-			onlyOneCheckerTable==true &&
-			alterChecker == true &&
-			tableChecker == true &&
-			wordsChecker >= 3)
+		ifSameAndOnlyChangeCheckers(words[0], "ALTER", alterChecker, onlyOneCheckerAlter);
+		ifSameAndOnlyChangeCheckers(words[1], "TABLE", tableChecker, onlyOneCheckerTable);
+		if (alterChecker == true && tableChecker == true)
 		{
-			endChecker = true;
+			it += 2;
+			for (it; it != words.end(); ++it)
+			{
+				if (tableChecker == true) wordsChecker++;
+				ifSameAndOnlyChangeCheckers(it, "ALTER", alterChecker, onlyOneCheckerAlter);
+				if(strcmp(previousIt->c_str(),"DROP")!=0)
+					ifSameAndOnlyChangeCheckers(it, "TABLE", tableChecker, onlyOneCheckerTable);
+				previousIt = it;
+			}
+
+			if (onlyOneCheckerAlter == true &&
+				onlyOneCheckerTable == true &&
+				alterChecker == true &&
+				tableChecker == true &&
+				wordsChecker >= 3)
+			{
+				endChecker = true;
+			}
+			else
+				endChecker = false;
+
+			return endChecker;
 		}
 		else
+		{
 			endChecker = false;
-
-		return endChecker;
+			return endChecker;
+		}
 	}
 	
 	bool isCreateTable(string statement)
 	{
-		list<string> words = Parser::Parse(statement);
-		list<string>::iterator it;
+		vector<string> words = Parser::Parse(statement);
+		vector<string>::iterator it;
 		bool endChecker;
 		bool onlyOneCheckerCreate=true; 
 		bool onlyOneCheckerTable = true;
@@ -85,15 +100,26 @@ private:
 		return endChecker;
 	}
 
-	void ifSameAddToCounter(list<string>::iterator word1, const char* word2, int &counter){
-		if (strcmp(word1->c_str(), word2))	counter++;
+	void ifSameAddToCounter(vector<string>::iterator word1, const char* word2, int &counter){
+		if (strcmp(word1->c_str(), word2)==0)	counter++;
 	}
 
-	void ifSameAndOnlyChangeCheckers(list<string>::iterator word1, const char* word2, bool &wordChecker, bool &onlyOneChecker) {
-		if (strcmp(word1->c_str(), word2))
+	void ifSameAndOnlyChangeCheckers(vector<string>::iterator word1, const char* word2, bool &wordChecker, bool &onlyOneChecker) {
+		if (strcmp(word1->c_str(), word2)==0)
+		{
 			if (wordChecker == false)
 				wordChecker = true;
 			else onlyOneChecker = false;
+		}
+	}
+
+	void ifSameAndOnlyChangeCheckers(string word1, const char* word2, bool& wordChecker, bool& onlyOneChecker) {
+		if (strcmp(word1.c_str(), word2) == 0)
+		{
+			if (wordChecker == false)
+				wordChecker = true;
+			else onlyOneChecker = false;
+		}
 	}
 };
 

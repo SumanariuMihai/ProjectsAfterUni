@@ -13,8 +13,9 @@ int main() {
 	Parser::printWords("SELECT * FROM TABLE tabel;");
 	
 	MySQLChecker checker;
-	cout<< checker.getTypeOfCommand("CREATE TABLE tabel;");
-	cout << checker.getTypeOfCommand("ALTER TABLE tabel DROP TABLE;");
+	cout << checker.getTypeOfCommand("ALTER TABLE tabel DROP TABLE;")<<endl;
+	cout<< checker.getTypeOfCommand("CREATE TABLE tabel;")<<endl;
+	
 
 
 	return 0;

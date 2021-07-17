@@ -13,27 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Entities">
+    <Filter Include="Source Files\Headers">
       <UniqueIdentifier>{00a9cc08-09f7-457e-a1af-6c68d25fb274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{8eddf20b-2c20-4a5e-99a7-30718f665d98}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Table.h">
-      <Filter>Source Files\Entities</Filter>
+      <Filter>Source Files\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Var.h">
-      <Filter>Source Files\Entities</Filter>
+      <Filter>Source Files\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Parser.h">
-      <Filter>Source Files\Entities</Filter>
+      <Filter>Source Files\Headers</Filter>
     </ClInclude>
     <ClInclude Include="MySQLChecker.h">
-      <Filter>Source Files\Entities</Filter>
+      <Filter>Source Files\Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
